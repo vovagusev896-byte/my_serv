@@ -1,14 +1,15 @@
 const express = require('express');
 const cors = require('cors')
 const app = express();
-const PORT = 5500;
+const PORT = 7000;
 const router = require('./routes/index')
 // const cors = require('cors')
 
 // app.use(cors({origin:'*'}))
-app.use(cors({origin:5500}))
+app.use(cors({origin:7000}))
 
 app.use(express.json())
+
 app.use('/boom', router)
 
 
