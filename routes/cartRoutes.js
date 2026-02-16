@@ -5,7 +5,7 @@ const cart = [
     {id:2,name:"Android",price:35000}
 ]
 
-
+let newId = 3; 
 
 router.get('/', (req,res)=>{
     return res.send(cart)

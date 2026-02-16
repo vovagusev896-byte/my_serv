@@ -6,30 +6,48 @@
     <title>Document</title>
 </head>
 <body>
-    <div id='cart-list'>
+    <input type="" name="" id="name">
+    <input type="" name="" id="price">
+    <button id="addButton" onclick="create()"> Добавить </button>
+    <div id='products'></div>
 
     </div>
 
     <script>
-        const API_URL = 'http://localhost:5500/cart'
-        const cartList = document.getElementById('cart-list')
-        async function cartRender(){
+        const div = document.getElementById('products')
+        const API_URL = 'http://localhost:7000'
+        async function load(){
             const response = await fetch(API_URL,{method:'GET'})
             const products = await response.json();
-            
-            products.forEach(product => {
-                const nname = document.createElement('h1')
-                nname.textContent = product.name
 
-                const pprice = document.createElement('p')
-                pprice.textContent = product.price
+            div.innerHTML = ""
 
-                cartList.appendChild(nname)
-                cartList.appendChild(pprice)
+            products.forEach((product) => {
+                const name = document.createElement('h1')
+                name.textContent = product.name
+                const price = document.createElement('p')
+                price.textContent = product.price
+                const delButton = document.createElement('button')
+                delButton.textContent = 'Удалить'
+                delButton.addEventListener('click', () => remove(product.id))
+
+                div.appendChild(delButton)
+                div.appendChild(name)
+                div.appendChild(price)
             });
-
         }
-        cartRender()
+        async function create(){
+        const name = document.getElementById('name').value
+        const price = document.getElementById('price').value
+        await fetch(API_URL, {method: 'POST', headers:{'content-type': 'application/json'}, body:JSON.stringify({name,price})})
+        load()
+        }
+        async function remove(id){
+        await fetch(`${API_URL}/${id}`, { method: 'DELETE' });
+        load();
+        }
+            
+        load()
     </script>
 </body>
 </html>
